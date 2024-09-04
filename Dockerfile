@@ -5,8 +5,8 @@ FROM python:3.10.6-buster
 COPY apitopic.py /app/apitopic.py
 COPY Pipfile /app/Pipfile
 COPY Pipfile.lock /app/Pipfile.lock
-COPY model.py /app/model.py
-COPY lda_model.pkl /app/lda_model.pkl
+COPY models/model_1/lda_model.pkl /app/models/model_1/lda_model.pkl
+COPY models/model_1/vectorizer.pkl /app/models/model_1/vectorizer.pkl
 
 
 # set the working directory in the container to be /app
