@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy container app to Azure Web App - topicwebapp
+name: Build and deploy container app to Azure Web App - topicwepapp
 
 on:
   push:
@@ -23,14 +23,14 @@ jobs:
       uses: docker/login-action@v2
       with:
         registry: https://mrqnlpapi.azurecr.io/
-        username: ${{ secrets.AzureAppService_ContainerUsername_a21727ed507149288679253a28a57f13 }}
-        password: ${{ secrets.AzureAppService_ContainerPassword_ce5a9a73516f4953a6e1ad223aae868c }}
+        username: ${{ secrets.AzureAppService_ContainerUsername_6229fc2941a9483fb30922fffb33009c }}
+        password: ${{ secrets.AzureAppService_ContainerPassword_2fd18249af1e401fb788144d37647664 }}
 
     - name: Build and push container image to registry
       uses: docker/build-push-action@v3
       with:
         push: true
-        tags: mrqnlpapi.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_a21727ed507149288679253a28a57f13 }}/topicwepapp:${{ github.sha }}
+        tags: mrqnlpapi.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_6229fc2941a9483fb30922fffb33009c }}/topicwepapp:${{ github.sha }}
         file: ./Dockerfile
 
   deploy:
@@ -45,7 +45,7 @@ jobs:
       id: deploy-to-webapp
       uses: azure/webapps-deploy@v2
       with:
-        app-name: 'topicwebapp'
+        app-name: 'topicwepapp'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_65dd10b1e9e9460c85319b0e3ca4740e }}
-        images: 'mrqnlpapi.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_a21727ed507149288679253a28a57f13 }}/topicwepapp:${{ github.sha }}'
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_d1ccb29ceb404238836de6e08e72c43a }}
+        images: 'mrqnlpapi.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_6229fc2941a9483fb30922fffb33009c }}/topicwepapp:${{ github.sha }}'
