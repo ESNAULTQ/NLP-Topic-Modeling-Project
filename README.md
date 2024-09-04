@@ -1,4 +1,4 @@
-[![Build and deploy container app to Azure Web App - topicwebapp](https://github.com/ESNAULTQ/NLP-Topic-Modeling-Project/actions/workflows/api_topicwebapp.yml/badge.svg)](https://github.com/ESNAULTQ/NLP-Topic-Modeling-Project/actions/workflows/api_topicwebapp.yml)
+[![Build and deploy container app to Azure Web App - topicwebapp](https://github.com/ESNAULTQ/NLP-Topic-Modeling-Project/actions/workflows/api_topicwebapp.yml/badge.svg?branch=main&event=deployment_status)](https://github.com/ESNAULTQ/NLP-Topic-Modeling-Project/actions/workflows/api_topicwebapp.yml)
 
 
 # NLP-Topic-Modeling-Project
