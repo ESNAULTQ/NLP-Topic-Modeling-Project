@@ -4,6 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+httpx = "*"
 fastapi = "*"
 uvicorn = "*"
 joblib = "*"
@@ -13,8 +14,10 @@ coverage = "*"
 pandas = "*"
 numpy = "*"
 scikit-learn = "*"
+pytest="*"
 
 [dev-packages]
+pytest="*"
 
 [requires]
 python_version = "3.10"
