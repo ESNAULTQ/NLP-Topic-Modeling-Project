@@ -1,1 +1,3 @@
 notebooks/
+streamlit_app/
+.gitignore
