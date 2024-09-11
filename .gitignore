@@ -1,2 +1,11 @@
+# Ignorer les fichiers d'environnement
 .env
-__pycache__
+
+# Ignorer les checkpoints Jupyter
+.ipynb_checkpoints/
+
+# Ignorer les fichiers cache Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
