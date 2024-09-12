@@ -5,7 +5,7 @@ FROM python:3.10.6-buster
 COPY apitopic.py app/apitopic.py
 COPY Pipfile app/Pipfile
 COPY Pipfile.lock /app/Pipfile.lock
-COPY models/model_1 app/models/model_1
+COPY models/ app/models/
 COPY utils app/utils
 
 
