@@ -62,7 +62,7 @@ def predict(input_data: TextInput):
 
 # Route pour faire une prédiction avec une requête POST
 @app.post("/predict_s")
-def predict(input_data: TextInput):
+def predict_s(input_data: TextInput):
     text = input_data.text
 
     # Vérifier si le texte est vide
@@ -70,7 +70,7 @@ def predict(input_data: TextInput):
         raise HTTPException(status_code=400, detail="Le texte fourni est vide.")
 
     # Faire une prédiction avec le modèle de sentiment analysis
-    sentiment = pipeline.predict([text])[0]
+    sentiment = pipeline.predict_s([text])[0]
 
     # Retourner le résultat de la prédiction
     return {"sentiment": sentiment}
