@@ -17,6 +17,7 @@ scikit-learn = "*"
 pytest="*"
 python-dotenv = "*"
 mysql-connector-python = "*"
+gensim = "*"
 
 [dev-packages]
 pytest="*"
