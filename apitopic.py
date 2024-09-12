@@ -9,6 +9,9 @@ from utils.db_utils import create_connection, insert_feedback
 # Charger le modèle LDA et le vectorizer sauvegardés
 lda_model = joblib.load('models/model_1/lda_model.pkl')
 vectorizer = joblib.load('models/model_1/vectorizer.pkl')
+# Charger le modèle de sentiment analysis
+pipeline = joblib.load('sentiment_analysis_pipeline.pkl')
+
 with open('models/model_1/topics.json', 'r', encoding='utf-8') as file:
     # Charge le contenu du fichier JSON en tant que variable Python
     themes = json.load(file)
@@ -51,10 +54,27 @@ def predict(input_data: TextInput):
     topic_with_themes = [
         {"theme": themes[i], "probability": prob}
         for i, prob in enumerate(topic_distribution)
-    ]
+
 
     # Retourner la distribution des topics avec les thèmes associés
     return {"topic_distribution": topic_with_themes}
+    ]
+
+# Route pour faire une prédiction avec une requête POST
+@app.post("/predict")
+def predict(input_data: TextInput):
+    text = input_data.text
+
+    # Vérifier si le texte est vide
+    if not text.strip():
+        raise HTTPException(status_code=400, detail="Le texte fourni est vide.")
+
+    # Faire une prédiction avec le modèle de sentiment analysis
+    sentiment = pipeline.predict([text])[0]
+
+    # Retourner le résultat de la prédiction
+    return {"sentiment": sentiment}
+
 
 @app.post("/feedback_topic")
 def feedback_topic(feedback: FeedbackRequest):
