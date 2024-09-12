@@ -15,6 +15,9 @@ pandas = "*"
 numpy = "*"
 scikit-learn = "*"
 pytest="*"
+dotenv = "*"
+python-dotenv = "*"
+mysql-connector-python = "*"
 
 [dev-packages]
 pytest="*"

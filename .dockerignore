@@ -1,3 +1,6 @@
 notebooks/
 streamlit_app/
 .gitignore
+.env
+*.Zone.Identifier
+.vscode/

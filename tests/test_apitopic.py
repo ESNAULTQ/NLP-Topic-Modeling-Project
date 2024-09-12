@@ -16,6 +16,5 @@ class TestAPI(unittest.TestCase):
         self.assertIn("message", response.json())
 
 
-
 if __name__ == "__main__":
     unittest.main()
