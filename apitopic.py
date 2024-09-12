@@ -10,7 +10,7 @@ from utils.db_utils import create_connection, insert_feedback
 lda_model = joblib.load('models/model_1/lda_model.pkl')
 vectorizer = joblib.load('models/model_1/vectorizer.pkl')
 # Charger le modèle de sentiment analysis
-pipeline = joblib.load('sentiment_analysis_pipeline.pkl')
+pipeline = joblib.load('models/sentiment/sentiment_analysis_pipeline.pkl')
 
 with open('models/model_1/topics.json', 'r', encoding='utf-8') as file:
     # Charge le contenu du fichier JSON en tant que variable Python
@@ -61,7 +61,7 @@ def predict(input_data: TextInput):
     ]
 
 # Route pour faire une prédiction avec une requête POST
-@app.post("/predict")
+@app.post("/predict_s")
 def predict(input_data: TextInput):
     text = input_data.text
 
