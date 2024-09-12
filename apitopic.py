@@ -1,10 +1,14 @@
 # apitopic.py
 import json
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Query
 import joblib
 import numpy as np
+import pandas as pd
 from pydantic import BaseModel
 from utils.db_utils import create_connection, insert_feedback
+from fastapi.responses import StreamingResponse
+from io import StringIO
+from mysql.connector import Error
 
 # Charger le modèle LDA et le vectorizer sauvegardés
 lda_model = joblib.load('models/model_1/lda_model.pkl')
@@ -94,3 +98,28 @@ def feedback_sentiment(feedback: FeedbackRequest):
 
     connection.close()
     return {"message": "Feedback enregistré avec succès."}
+
+@app.get("/export_data")
+def export_data(table_name: str = Query(..., description="Nom de la table à exporter")):
+    connection = create_connection()
+    if connection is None:
+        raise HTTPException(status_code=500, detail="Erreur de connexion à la base de données.")
+
+    # Validation simple pour éviter les injections SQL
+    if not table_name.isidentifier():
+        raise HTTPException(status_code=400, detail="Nom de la table invalide.")
+
+    query = f"SELECT * FROM {table_name}"
+    try:
+        df = pd.read_sql(query, connection)
+        csv_buffer = StringIO()
+        df.to_csv(csv_buffer, index=False)
+        csv_buffer.seek(0)
+    except Error as e:
+        raise HTTPException(status_code=500, detail=f"Erreur lors de l'exportation des données : {e}")
+    finally:
+        connection.close()
+
+    return StreamingResponse(csv_buffer, media_type="text/csv", headers={"Content-Disposition": f"attachment; filename={table_name}_data.csv"})
+# Pour récup la table monitoring topic GET http://localhost:8000/export_data?table_name=monitoring_topic
+# Pour récup la table monitoring sentiment GET http://localhost:8000/export_data?table_name=monitoring_sentiment
