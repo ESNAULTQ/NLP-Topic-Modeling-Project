@@ -2,26 +2,33 @@
 import json
 from fastapi import FastAPI, HTTPException
 import joblib
+import numpy as np
 from pydantic import BaseModel
-from dotenv import load_dotenv
 from utils.db_utils import create_connection, insert_feedback
 
 # Charger le modèle LDA et le vectorizer sauvegardés
 lda_model = joblib.load('models/model_1/lda_model.pkl')
 vectorizer = joblib.load('models/model_1/vectorizer.pkl')
 # Charger le modèle de sentiment analysis
-pipeline = joblib.load('models/sentiment/sentiment_analysis_pipeline.pkl')
+fasttext_model = joblib.load('models/sentiment/fasttext_model.pkl')
+logistic_model = joblib.load('models/sentiment/logistic_model.pkl')
 
 with open('models/model_1/topics.json', 'r', encoding='utf-8') as file:
     # Charge le contenu du fichier JSON en tant que variable Python
     themes = json.load(file)
 
+def get_document_vector(text):
+    tokens = text.split()
+    vectors = [fasttext_model.wv[word] for word in tokens if word in fasttext_model.wv]
+    return np.mean(vectors, axis=0) if vectors else np.zeros(fasttext_model.vector_size)
+
+def predict_sentiment(text):
+    vector = get_document_vector(text)
+    return logistic_model.predict([vector])[0]
 
 
 # Initialiser FastAPI
 app = FastAPI()
-
-
 
 class TextInput(BaseModel):
     text: str
@@ -53,26 +60,16 @@ def predict(input_data: TextInput):
     # Associer les thèmes aux probabilités des topics
     topic_with_themes = [
         {"theme": themes[i], "probability": prob}
-        for i, prob in enumerate(topic_distribution)
+        for i, prob in enumerate(topic_distribution)]
 
-
-    # Retourner la distribution des topics avec les thèmes associés
     return {"topic_distribution": topic_with_themes}
-    ]
+
 
 # Route pour faire une prédiction avec une requête POST
 @app.post("/predict_s")
 def predict_s(input_data: TextInput):
     text = input_data.text
-
-    # Vérifier si le texte est vide
-    if not text.strip():
-        raise HTTPException(status_code=400, detail="Le texte fourni est vide.")
-
-    # Faire une prédiction avec le modèle de sentiment analysis
-    sentiment = pipeline.predict_s([text])[0]
-
-    # Retourner le résultat de la prédiction
+    sentiment = predict_sentiment(text)
     return {"sentiment": sentiment}
 
 
