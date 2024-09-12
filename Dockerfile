@@ -2,11 +2,11 @@
 FROM python:3.10.6-buster
 
 # copy files to the /app folder in the container
-COPY apitopic.py /app/apitopic.py
-COPY Pipfile /app/Pipfile
+COPY apitopic.py app/apitopic.py
+COPY Pipfile app/Pipfile
 COPY Pipfile.lock /app/Pipfile.lock
-COPY models/model_1/lda_model.pkl /app/models/model_1/lda_model.pkl
-COPY models/model_1/vectorizer.pkl /app/models/model_1/vectorizer.pkl
+COPY models/model_1 app/models/model_1
+COPY utils app/utils
 
 
 # set the working directory in the container to be /app
