@@ -28,6 +28,9 @@ class FeedbackRequest(BaseModel):
     predicted_value: str
     real_value: str
 
+@app.get("/status")
+def status():
+    return {'message':'API en ligne!'}
 
 # Route pour faire une prédiction avec une requête GET
 @app.post("/predict")
