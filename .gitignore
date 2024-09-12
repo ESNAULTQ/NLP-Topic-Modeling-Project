@@ -11,3 +11,5 @@ __pycache__/
 *.pyd
 *.Zone.Identifier
 .vscode/
+
+*.csv
