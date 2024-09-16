@@ -63,7 +63,7 @@ def predict(input_data: TextInput):
 
     # Associer les thèmes aux probabilités des topics
     topic_with_themes = [
-        {"theme": themes[i], "probability": prob}
+        {"theme": themes[str(i)], "probability": prob}
         for i, prob in enumerate(topic_distribution)]
 
     return {"topic_distribution": topic_with_themes}
@@ -121,5 +121,5 @@ def export_data(table_name: str = Query(..., description="Nom de la table à exp
         connection.close()
 
     return StreamingResponse(csv_buffer, media_type="text/csv", headers={"Content-Disposition": f"attachment; filename={table_name}_data.csv"})
-# Pour récup la table monitoring topic GET http://localhost:8000/export_data?table_name=monitoring_topic
+# Pour récup la table monitoring topic GET http://topicwebapp-g0g7hshfhugta5cy.francecentral-01.azurewebsites.net/export_data?table_name=monitoring_topic
 # Pour récup la table monitoring sentiment GET http://localhost:8000/export_data?table_name=monitoring_sentiment
